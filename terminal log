@@ -1,0 +1,66 @@
+jjiii@jjiii-VirtualBox:~/compiler-main$ make
+clang -Wall -Os -c y.tab.c
+cparser.y:248:46: warning: incompatible pointer to integer conversion assigning to 'int' from 'AST *' (aka 'struct abstract_syntax_tree *') [-Wint-conversion]
+          { (yyvsp[-1].val)->left->sym->type = (yyvsp[-2].val); (yyval.val) = (yyvsp[-1].val); /*printf("[%s]\n",$2->left->sym->name);*/ }
+                                             ^ ~~~~~~~~~~~~~~~
+In file included from cparser.y:626:
+lex.yy.c:1947:17: warning: unused function 'yyunput' [-Wunused-function]
+    static void yyunput (int c, char * yy_bp )
+                ^
+2 warnings generated.
+clang -Wall -Os -c AST.c
+clang -Wall -Os -c reg_compile.c
+clang -Wall -Os -c x86_code_gen.c
+clang -o catc y.tab.o AST.o reg_compile.o x86_code_gen.o
+jjiii@jjiii-VirtualBox:~/compiler-main$ ./catc -S ./test/hello.c
+	.section	.rodata
+.LC0:	.string	"Hello! tiny c world!!\n"
+	.text
+	.align	4
+	.global	main
+	.type	main,@function
+main:
+	pushl	%ebp
+	movl	%esp,%ebp
+	subl	$24,%esp
+	movl	%ebx,-4(%ebp)
+	lea	.LC0,%eax
+	pushl	%eax
+	call	printf
+	movl	$0,%eax
+	jmp	.L1
+.L1:	movl	-4(%ebp),%ebx
+	leave
+	ret
+
+jjiii@jjiii-VirtualBox:~/compiler-main$ ./catc -S ./test/hello.c > ./test/hello.asm
+jjiii@jjiii-VirtualBox:~/compiler-main$ as ./test/hello.asm -o ./test/hello.o
+./test/hello.asm: Assembler messages:
+./test/hello.asm:8: Error: invalid instruction suffix for `push'
+./test/hello.asm:13: Error: invalid instruction suffix for `push'
+jjiii@jjiii-VirtualBox:~/compiler-main$ as ./test/hello.asm -o ./test/hello.o
+jjiii@jjiii-VirtualBox:~/compiler-main$ gcc ./test/hello.o -o ./test/hello
+/usr/bin/ld: ./test/hello.o: relocation R_X86_64_32 against `.rodata' can not be used when making a PIE object; recompile with -fPIE
+collect2: error: ld returned 1 exit status
+jjiii@jjiii-VirtualBox:~/compiler-main$ ./teset/hello
+bash: ./teset/hello: No such file or directory
+jjiii@jjiii-VirtualBox:~/compiler-main$ ./test/hello
+bash: ./test/hello: No such file or directory
+jjiii@jjiii-VirtualBox:~/compiler-main$ -fPIE ./test/hello.o
+-fPIE: command not found
+jjiii@jjiii-VirtualBox:~/compiler-main$ fPIE
+fPIE: command not found
+jjiii@jjiii-VirtualBox:~/compiler-main$ gcc ./test/hello.o -fPIE -o ./test/hello
+/usr/bin/ld: ./test/hello.o: relocation R_X86_64_32 against `.rodata' can not be used when making a PIE object; recompile with -fPIE
+collect2: error: ld returned 1 exit status
+jjiii@jjiii-VirtualBox:~/compiler-main$ gcc -fPIE ./test/hello.o -o ./test/hello
+/usr/bin/ld: ./test/hello.o: relocation R_X86_64_32 against `.rodata' can not be used when making a PIE object; recompile with -fPIE
+collect2: error: ld returned 1 exit status
+jjiii@jjiii-VirtualBox:~/compiler-main$ gcc -no-pie ./test/hello.o -o ./test.hello
+jjiii@jjiii-VirtualBox:~/compiler-main$ ./test/hello
+bash: ./test/hello: No such file or directory
+jjiii@jjiii-VirtualBox:~/compiler-main$ gcc -no-pie ./test/hello.o -o ./test/hello
+jjiii@jjiii-VirtualBox:~/compiler-main$ ./test/hello
+Segmentation fault (core dumped)
+jjiii@jjiii-VirtualBox:~/compiler-main$ ./catc ./test/teset01.c
+
