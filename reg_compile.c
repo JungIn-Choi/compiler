@@ -153,13 +153,6 @@ void compileExpr(int target, AST *p)
 		compileExpr(r2, p->right);
 		genCode3(MUL, target, r1, r2);
 		return;
-/*	case DIV_OP:
-		r1 = tmp_counter++;
-		r2 = tmp_counter++;
-		compileExpr(r1, p->left);
-		compileExpr(r2, p->right);
-		genCode3(DIV, target, r1, r2);
-		return;*/
 	case LT_OP:
 		r1 = tmp_counter++;
 		r2 = tmp_counter++;
@@ -177,19 +170,6 @@ void compileExpr(int target, AST *p)
 	case CALL_OP:
 		compileCallFunc(target, getSymbol(p->left), p->right);
 		return;
-
-/*	case PRINTLN_OP:
-		if (target != -1) {
-			error("println has no value\n");
-		}
-		printFunc(p->left);
-		return;*/
-
-	case GET_ARRAY_OP:
-	/* not implemented */
-	case SET_ARRAY_OP:
-	/* not implemented */
-
 	default:
 		error("unknown operater/statement %d\n", p->op);
 	}
@@ -260,11 +240,6 @@ void compileWhile(AST *cond,AST *body)
 	genCode1(LABEL, l2);
 }
 
-void compileFor(AST *init,AST *cond,AST *iter,AST *body)
-{
-	/* not implemented */
-}
-
 void compileStatement(AST *p)
 {
 	if (p == NULL) return;
@@ -294,20 +269,12 @@ void compileStatement(AST *p)
 void declareVariable(Symbol *vsym, AST *init_value)
 {
 	int a = init_value ? init_value->val : 0;
-//	printf("declareVariable %s = %d\n", vsym->name, a);
 	int l = genStatic(a);
 
 	Env[envp].var = vsym;
 	Env[envp].var_kind = VAR_GLOBAL;
 	Env[envp].pos = l/*init_value*/;
 	envp++;
-}
-
-// Array
-void declareArray(Symbol *a, AST *size)
-{
-	/* not implemented */
-	printf("declareArray is not implemented.\n");
 }
 
 #if 0

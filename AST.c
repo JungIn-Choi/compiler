@@ -32,8 +32,6 @@ char *code_name(enum code op)
 		return "SET_ARRAY_OP";
 	case CALL_OP:
 		return "CALL_OP";
-//	case PRINTLN_OP:
-//		return "PRINTLN_OP";
 	case IF_STATEMENT:
 		return "IF_STATEMENT";
 	case BLOCK_STATEMENT:
@@ -116,7 +114,6 @@ AST *makeStr(char *s)
 
 AST *makeAST(enum code op, AST *left, AST *right)
 {
-//	printf("[%d,%x,%x]\n",op,left,right);
 	AST *p = (AST *)malloc(sizeof(AST));
 	p->op = op;
 	p->left = left;
@@ -183,7 +180,6 @@ Symbol *lookupSymbol(char *name)
 
 AST *makeSymbol(char *name)
 {
-	//printf("SYM:[%s]\n", name);
 	AST *p = (AST *)malloc(sizeof(AST));
 	p->op = SYM;
 	p->sym = lookupSymbol(name);
@@ -192,7 +188,6 @@ AST *makeSymbol(char *name)
 
 Symbol *getSymbol(AST *p)
 {
-	//printf("getSymbol [%x]\n", p);
 	if (!p) fprintf(stderr, "AST is null at getSymbol!\n");
 	if (p->op != SYM) {
 		fprintf(stderr, "bad access to symbol\n");

@@ -21,7 +21,6 @@ void checkSystem()
 	if (strcmp(uts.sysname, "Darwin") == 0) {
 		isDarwin = 1;
 	}
-	/* else Linux */
 }
 
 int n_code;
@@ -60,10 +59,6 @@ void genCodeS(int opcode, int operand1, int operand2, char *s)
 	Codes[n_code++].opcode = opcode;
 }
 
-/*
- *  code generator for x86
- */
-
 #define N_REG 4
 #define N_SAVE 4
 
@@ -82,9 +77,8 @@ char *tmpRegName[N_REG] = { "%eax", "%ebx", "%ecx", "%edx" };
 int tmpRegState[N_REG];
 int tmpRegSave[N_SAVE];
 
-/*
- * sample register allocation
- */
+/* sample register allocation */
+ 
 void initTmpReg()
 {
 	int i;
@@ -150,12 +144,10 @@ int useReg(int r)
 			return i;
 		}
 	}
-	/* not found in register, then restore from save area. */
 	for (i = 0; i < N_SAVE; i++) {
 		if (tmpRegSave[i] == r) {
 			rr = getReg(r);
 			tmpRegSave[i] = -1;
-			/* load into regsiter */
 			fprintf(yyout, "\tmovl\t%d(%%ebp),%s\n", TMP_OFF(i), tmpRegName[rr]);
 			return rr;
 		}
@@ -207,8 +199,6 @@ void genFuncCode(char *entry_name, int n_local)
 	initTmpReg();
 
 	for (i = 0; i < n_code; i++) {
-		/*debug*//* fprintf(yyout, "%s %d %d %d\n",code_name(Codes[i].opcode),
-		       Codes[i].operand1,Codes[i].operand2,Codes[i].operand3); */
 		opd1 = Codes[i].operand1;
 		opd2 = Codes[i].operand2;
 		opd3 = Codes[i].operand3;
@@ -364,25 +354,6 @@ void genFuncCode(char *entry_name, int n_local)
 			fprintf(yyout, ".L%d:\tmovl\t$1,%s\n", l1, tmpRegName[r]);
 			fprintf(yyout, ".L%d:", l2);
 			break;
-
-/*		case PRINTLN:
-			r = useReg(opd1);
-			freeReg(r);
-			if (isDarwin) {
-				fprintf(yyout, "\tmovl\t%s,4(%%esp)\n",tmpRegName[r]);
-				fprintf(yyout, "\tlea\t.LC%d,%s\n",opd2, tmpRegName[r]);
-				fprintf(yyout, "\tmovl\t%s,0(%%esp)\n",tmpRegName[r]);
-				saveAllRegs();
-				fprintf(yyout, "\tcall\t_println\n");
-			} else {
-				fprintf(yyout, "\tpushl\t%s\n",tmpRegName[r]);
-				fprintf(yyout, "\tlea\t.LC%d,%s\n",opd2, tmpRegName[r]);
-				fprintf(yyout, "\tpushl\t%s\n",tmpRegName[r]);
-				saveAllRegs();
-				fprintf(yyout, "\tcall\tprintln\n");
-				fprintf(yyout, "\taddl\t$8,%%esp\n");
-			}
-			break;*/
 		}
 	}
 
@@ -402,7 +373,6 @@ int genString(char *s)
 	} else {
 		fprintf(yyout, "\t.section\t.rodata\n");
 		fprintf(yyout, ".LC%d:", l);
-//		fprintf(yyout, "\t.string \"%s\"\n", s);
 		fprintf(yyout, "\t.string\t%s\n", s);
 	}
 	return l;
