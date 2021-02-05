@@ -6,6 +6,10 @@
 #define YYERROR_VERBOSE 1
 #define YYDEBUG 1
 #endif
+int yylex();
+void yyerror(const char* msg) {
+ fprintf(stderr, "%s\n", msg);
+}
 %}
 
 %union {
@@ -530,7 +534,7 @@ labeled_statement
 compound_statement
 	: '{' '}'
 	| '{'  block_item_list '}'
-	  { $$ = makeAST(BLOCK_STATEMENT, $2, 0); printAST($$); }
+	  { $$ = makeAST(BLOCK_STATEMENT, $2, 0); }
 	;
 
 block_item_list
@@ -630,14 +634,6 @@ yymark()
 	if (source) {
 		sscanf(yytext, "# %d %s", &yylineno, source);
 	}
-}
-
-void yyerror(char *s)
-{
-	fflush(stdout);
-	fprintf(stderr, "\033[1m\033[31m");
-	fprintf(stderr, "*** %d: %s near '%s'\n", yylineno, s, yytext);
-	fprintf(stderr, "\033[0m");
 }
 
 int main(int argc, char *argv[])
