@@ -19,8 +19,9 @@ Environment Env[MAX_ENV];
 int label_counter = 0;
 int local_var_pos;
 int tmp_counter = 0;
+int compileArgs(AST *args, int i);
 
-void compileStoreVar(Symbol *var, int r)
+	void compileStoreVar(Symbol *var, int r)
 {
 	for (int i=envp-1; i>=0; i--) {
 		if (Env[i].var == var) {

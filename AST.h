@@ -73,5 +73,6 @@ AST *addLast(AST *l, AST *p);
 void defineFunction(Symbol *fsym, AST *params,AST *body);
 void declareVariable(Symbol *vsym, AST *init_value);
 void declareArray(Symbol *asym, AST *size);
+void printAST(AST *p);
 
 void error(char *fmt, ...);

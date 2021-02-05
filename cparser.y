@@ -534,7 +534,7 @@ labeled_statement
 compound_statement
 	: '{' '}'
 	| '{'  block_item_list '}'
-	  { $$ = makeAST(BLOCK_STATEMENT, $2, 0); }
+	  { $$ = makeAST(BLOCK_STATEMENT, $2, 0); printAST($$); }
 	;
 
 block_item_list
@@ -627,7 +627,7 @@ void error(char *fmt, ...)
 
 // retrieve from '# digits text'
 static char *source; // current input file name
-yymark()
+void yymark()
 {
 	if (source) free(source);
 	source = (char *)calloc(yyleng, sizeof(char));

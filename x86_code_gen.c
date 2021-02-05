@@ -105,7 +105,7 @@ int getReg(int r)
 			return i;
 		}
 	}
-	error("no temp reg\n");
+	printf("no temp reg\n");
 	return 0;
 }
 
@@ -121,7 +121,7 @@ void saveReg(int reg)
 			return;
 		}
 	}
-	error("no temp save\n");
+	printf("no temp save\n");
 }
 
 void saveAllRegs()
@@ -160,7 +160,7 @@ int useReg(int r)
 			return rr;
 		}
 	}
-	error("reg is not found\n");
+	printf("reg is not found\n");
 	return 0;
 }
 
