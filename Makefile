@@ -3,7 +3,7 @@ CFLAGS = -Wall -Os
 LEX = flex
 YACC = yacc -dv
 
-PROGRAM = catc
+PROGRAM = comp
 OBJS = y.tab.o AST.o reg_compile.o x86_code_gen.o
 
 .SUFFIXES: .c .o
