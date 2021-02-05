@@ -1,5 +1,6 @@
 ### Please follow this order.
 
+```
 $ make
 $ ./catc -S ./test/hello.c
 		.section	.rodata
@@ -22,10 +23,12 @@ main:
 		leave
 		ret
 $ ./catc -S ./test/hello.c > ./test/hello.asm
-
+```
 > After this, if your computer is 64bit, you need to prepend '.code32' at the first line of hello.asm file. It will change the target to 32bit platform.
 
+```
 $ as ./test/hello.asm -o ./test/hello.o
 $ gcc -no-pie ./test/hello.o -o ./test.hello
 $ ./test/hello
 Hello World
+```
