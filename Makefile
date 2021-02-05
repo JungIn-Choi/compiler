@@ -1,5 +1,3 @@
-# ©2016 YUICHIRO NAKADA
-
 CC = clang
 CFLAGS = -Wall -Os
 LEX = flex

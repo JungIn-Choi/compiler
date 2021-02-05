@@ -98,11 +98,6 @@ void compileBlock(AST *local_vars, AST *statements)
 	for ( ; statements != NULL; statements = getNext(statements)) {
 		compileStatement(getFirst(statements));
 	}
-/*	for ( ; ast != NULL; ast = getNext(ast)) {
-		AST *a = getFirst(ast);
-		if (a->op == SYM) continue;
-		compileStatement(getFirst(ast));
-	}*/
 	envp = envp_save;
 }
 
@@ -111,15 +106,6 @@ void compileCallFunc(int target, Symbol *f, AST *args)
 	int narg = compileArgs(args, 0);
 	genCodeS(CALL, target, narg, f->name);
 }
-
-/*void compileExpr(int target, AST *p);
-void printFunc(AST *args)
-{
-	int l = genString(getNth(args, 0)->str);
-	int r = tmp_counter++;
-	compileExpr(r, getNth(args, 1));
-	genCode2(PRINTLN, r, l);
-}*/
 
 void compileExpr(int target, AST *p)
 {

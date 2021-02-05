@@ -22,7 +22,7 @@ again:
 	if (isspace(c)) {
 		goto again;
 	}
-	switch (c) {
+    switch (c) {
 	case '+':
 	case '-':
 	case '*':

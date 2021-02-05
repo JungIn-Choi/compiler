@@ -1,12 +1,8 @@
-/*
- * register machine intermediate opcode
- */
-
-#define LOADI 	1	// LOADI r,i	load int
-#define LOADA 	2	// LOADA r,n	load arg
-#define LOADL	3	// LOADL r,n	load local var
-#define STOREA	4	// STOREA r,n	store arg
-#define STOREL	5	// STOREL r,n	store local var
+#define LOADI 	1	// LOADI r,i
+#define LOADA 	2	// LOADA r,n
+#define LOADL	3	// LOADL r,n
+#define STOREA	4	// STOREA r,n
+#define STOREL	5	// STOREL r,n
 #define ADD 	6	// ADD t,r1,r2
 #define SUB 	7	// SUB t,r1,r2
 #define MUL 	8	// MUL t,r1,r2
